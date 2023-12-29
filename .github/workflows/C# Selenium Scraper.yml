@@ -1,28 +1,24 @@
-name: C# Project Build and Run
+name: C# Project with Selenium
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push]
 
 jobs:
-  build-and-run:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '8.0.100' # specify your .NET version
+        dotnet-version: '8.0.100' # Replace with your .NET version
 
-    - name: Restore dependencies
-      run: dotnet restore csharpweb.csproj
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v1
 
     - name: Build
-      run: dotnet build csharpweb.csproj --configuration Release --no-restore
+      run: dotnet build --configuration Release
 
-    - name: Run
-      run: dotnet run --project csharpweb.csproj
+    - name: Test
+      run: dotnet test --no-restore
