@@ -1,0 +1,42 @@
+name: C# Selenium Scraper
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 13 * * 0-4'  # Example: runs at 1 PM UTC, Sunday to Thursday
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1'  # Specify your .NET version here
+
+    - name: Restore dependencies
+      run: dotnet restore YourSolution.sln
+
+    - name: Build
+      run: dotnet build YourSolution.sln --configuration Release
+
+    - name: Install Google Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+
+    - name: Download and Set up ChromeDriver
+      run: |
+        CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
+        wget -N http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -P ~/
+        unzip ~/chromedriver_linux64.zip -d ~/
+        sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
+        sudo chmod +x /usr/local/bin/chromedriver
+
+    - name: Run Selenium C# Application
+      run: dotnet run --project YourProjectFolder/YourProject.csproj
