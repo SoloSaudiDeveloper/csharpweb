@@ -17,8 +17,13 @@ jobs:
     - name: Setup Chrome
       uses: browser-actions/setup-chrome@v1
 
-    - name: Build
-      run: dotnet build --configuration Release
 
-    - name: Test
-      run: dotnet test --no-restore
+      
+    - name: Restore dependencies
+      run: dotnet restore csharpweb.csproj
+
+    - name: Build
+      run: dotnet build csharpweb.csproj --configuration Release --no-restore
+
+    - name: Run
+      run: dotnet run --project csharpweb.csproj
