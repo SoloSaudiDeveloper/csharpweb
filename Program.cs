@@ -9,7 +9,7 @@ class Program
     static void Main(string[] args)
     {
         // Path to the Symbols.csv file
-        string filePath = @"C:\Users\malfa\csharpweb\Symbols.csv";
+        string filePath = "Symbols.csv";
 
         // Read all lines (symbols) from the file
         var symbols = File.ReadAllLines(filePath);
