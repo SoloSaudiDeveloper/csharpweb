@@ -1,4 +1,4 @@
-name: .NET
+name: C# Project Build and Run
 
 on:
   push:
@@ -7,22 +7,22 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '8.0.x' # Specify the .NET version
+        dotnet-version: '8.0.100' # specify your .NET version
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore csharpweb.csproj
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build csharpweb.csproj --configuration Release --no-restore
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Run
+      run: dotnet run --project csharpweb.csproj
