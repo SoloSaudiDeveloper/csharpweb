@@ -15,8 +15,9 @@ class Program
         var symbols = File.ReadAllLines(filePath);
 
         // Initialize the ChromeDriver
+        
         ChromeOptions options = new ChromeOptions();
-        options.AddArguments("headless"); // Run in headless mode (without opening a UI window)
+        chromeOptions.AddArguments("--headless", "--disable-gpu", "--window-size=1920,1080", "--no-sandbox");
         using IWebDriver driver = new ChromeDriver(options);
 
         // Iterate over each symbol and scrape data
