@@ -17,7 +17,7 @@ class Program
         // Initialize the ChromeDriver
         
         ChromeOptions options = new ChromeOptions();
-        chromeOptions.AddArguments("--headless", "--disable-gpu", "--window-size=1920,1080", "--no-sandbox");
+        ChromeOptions.AddArguments("--headless", "--disable-gpu", "--window-size=1920,1080", "--no-sandbox");
         using IWebDriver driver = new ChromeDriver(options);
 
         // Iterate over each symbol and scrape data
