@@ -1,42 +1,28 @@
-name: C# Selenium Scraper
+name: .NET
 
 on:
   push:
     branches: [ main ]
-  schedule:
-    - cron: '0 13 * * 0-4'  # Example: runs at 1 PM UTC, Sunday to Thursday
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  build-and-run:
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v1
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '3.1'  # Specify your .NET version here
+        dotnet-version: '8.0.x' # Specify the .NET version
 
     - name: Restore dependencies
-      run: dotnet restore ClassLibrary1.sln
+      run: dotnet restore
 
     - name: Build
-      run: dotnet build ClassLibrary1.sln --configuration Release
+      run: dotnet build --no-restore
 
-    - name: Install Google Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
-
-    - name: Download and Set up ChromeDriver
-      run: |
-        CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
-        wget -N http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -P ~/
-        unzip ~/chromedriver_linux64.zip -d ~/
-        sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
-        sudo chmod +x /usr/local/bin/chromedriver
-
-    - name: Run Selenium C# Application
-      run: dotnet run --project YourProjectFolder/YourProject.csproj
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
