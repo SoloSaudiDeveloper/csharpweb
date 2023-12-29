@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.IO;
@@ -15,9 +15,8 @@ class Program
         var symbols = File.ReadAllLines(filePath);
 
         // Initialize the ChromeDriver
-        
         ChromeOptions options = new ChromeOptions();
-        ChromeOptions.AddArguments("--headless", "--disable-gpu", "--window-size=1920,1080", "--no-sandbox");
+        options.AddArguments("headless"); // Run in headless mode (without opening a UI window)
         using IWebDriver driver = new ChromeDriver(options);
 
         // Iterate over each symbol and scrape data
