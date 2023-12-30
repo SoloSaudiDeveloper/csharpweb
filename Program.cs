@@ -9,7 +9,7 @@ class Program
     static void Main(string[] args)
     {
         // Path to the Symbols.csv file
-        string filePath = "Symbols.csv";
+        string filePath = @"C:\Users\malfa\csharpweb\Symbols.csv";
 
         // Read all lines (symbols) from the file
         var symbols = File.ReadAllLines(filePath);
@@ -42,11 +42,28 @@ class Program
             {
                 Console.WriteLine($"Element not found for symbol {symbol}.");
             }
+            // XPath to locate the company name element
+            string xpathForCompanyName = "//*[@id='js-category-content']/div[1]/div[1]/div/div/div/h2";
 
-            Console.WriteLine("---------------------------------------");
+            try
+            {
+                // Find the element using XPath
+                var companyNameElement = driver.FindElement(By.XPath(xpathForCompanyName));
+
+                // Extract the text from the element
+                string companyName = companyNameElement.Text;
+
+                Console.WriteLine("Company Name: " + companyName);
+            }
+            catch (NoSuchElementException)
+            {
+                Console.WriteLine("Element with specified XPath not found.");
+
+                Console.WriteLine("---------------------------------------");
+            }
+
+            // Close the browser
+            driver.Quit();
         }
-
-        // Close the browser
-        driver.Quit();
     }
 }
